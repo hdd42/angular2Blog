@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --watch src/ --exec babel-node src/server.js",
-    "start": "node ./dist/server.js",
+    "start": "pm2 start ./dist/server.js -i 3",
     "build": "babel -w src --out-dir dist"
   },
   "keywords": [],
