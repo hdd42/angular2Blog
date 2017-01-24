@@ -26,7 +26,6 @@ const config = {
     db: 'mongodb://localhost/blog-test',
     secret: 'uuid()'
   },
-
   production: {
     root: rootPath,
     app: {
