@@ -72,7 +72,7 @@ PostSchema.statics.FindByIdOrSlugWithComment = function (id, query, select = ["_
                     resolve([post, commentCount, skip, limit, orderBy, orderDirection]);
                 });
             } else {
-                reject(new Error(`No post found with id/slug : ${ id }`));
+                reject(new Error(`No post found with id/slug : ${id}`));
             }
         }).catch(err => reject(err));
     });

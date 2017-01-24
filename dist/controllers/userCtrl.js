@@ -61,8 +61,8 @@ class UserCtrl extends _mainCtrl2.default {
         return _asyncToGenerator(function* () {
             let userId = req.params.id;
             const user = yield User.findByIdAndUpdate(userId, req.body);
-            if (!user) return res.status(404).json({ success: 0, message: `no user found with id : ${ userId }` });
-            res.status(200).json({ message: `User with id: '${ userId }' updated!`, success: 1 });
+            if (!user) return res.status(404).json({ success: 0, message: `no user found with id : ${userId}` });
+            res.status(200).json({ message: `User with id: '${userId}' updated!`, success: 1 });
         })();
     }
     destroy(req, res, next) {
@@ -70,8 +70,8 @@ class UserCtrl extends _mainCtrl2.default {
 
             let userId = req.params.id;
             const user = yield User.findByIdAndUpdate(userId, { $set: { deletedAt: Date.now() } });
-            if (!user) return res.status(404).json({ success: 0, message: `no user found with id : ${ userId }` });
-            res.status(200).json({ success: 1, message: `User with id: '${ userId }' deleted!` });
+            if (!user) return res.status(404).json({ success: 0, message: `no user found with id : ${userId}` });
+            res.status(200).json({ success: 1, message: `User with id: '${userId}' deleted!` });
         })();
     }
 

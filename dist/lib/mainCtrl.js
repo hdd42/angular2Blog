@@ -48,7 +48,7 @@ class MainCtrl {
             for (let reservedKey of reservedKeys) {
                 if (req.body[reservedKey]) {
                     return res.status(400).json({
-                        error: `Cannot specify '${ reservedKey }' as part of request body`
+                        error: `Cannot specify '${reservedKey}' as part of request body`
                     });
                 }
             }
@@ -64,7 +64,7 @@ class MainCtrl {
                     return next();
                 } else {
                     return res.status(400).json({
-                        error: `This is not a valid id format, provided id : ${ id }`
+                        error: `This is not a valid id format, provided id : ${id}`
                     });
                 }
             }
@@ -74,7 +74,7 @@ class MainCtrl {
                     return next();
                 } else {
                     if (!req.query.slug) return res.status(400).json({
-                        error: `This is not a valid id or slug format, provided id : ${ id }, slug : ${ slug }`
+                        error: `This is not a valid id or slug format, provided id : ${id}, slug : ${slug}`
                     });
                     return next();
                 }
@@ -90,7 +90,7 @@ class MainCtrl {
         console.log('Body : ', body);
         for (let field of this[action].required) {
             if (!body[field]) {
-                missing.push(`the field '${ field }' is required`);
+                missing.push(`the field '${field}' is required`);
             }
         }
         return missing;

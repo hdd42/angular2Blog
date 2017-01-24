@@ -11,7 +11,7 @@ let startServer = (() => {
             yield db.connect();
             console.log("Connected to DB!");
             yield app.listen(_config2.default.port);
-            console.log(`Server listening on port : ${ _config2.default.port }`);
+            console.log(`Server listening on port : ${_config2.default.port}`);
         } catch (err) {
             console.log("Connection Failed to DB! : ", err);
             process.exit(1);

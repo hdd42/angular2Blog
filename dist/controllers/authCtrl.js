@@ -39,9 +39,9 @@ class AuthCtrl extends _mainCtrl2.default {
             const { email, password } = req.body;
             console.log('email, passs : ', email, password);
             let user = yield User.findOne({ email }).select('email password _id role active name');
-            if (!user) return res.status(404).json({ success: 0, message: `no user found with email : ${ email }` });
+            if (!user) return res.status(404).json({ success: 0, message: `no user found with email : ${email}` });
             let loginCheck = yield user.comparePassword(password);
-            if (!loginCheck) return res.status(404).json({ success: 0, message: `wrong email or password : ${ email }` });
+            if (!loginCheck) return res.status(404).json({ success: 0, message: `wrong email or password : ${email}` });
             let out = { _id: user._id, name: user.name, email: user.email, role: user.role, active: user.active };
             const token = yield (0, _helpers.createToken)({ _id: user._id, email: user.email });
             res.status(200).json({ success: 1, user: out, token });

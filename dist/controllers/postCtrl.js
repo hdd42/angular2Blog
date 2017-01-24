@@ -63,7 +63,7 @@ class PostCtrl extends _mainCtrl2.default {
 
                 return res.json({ success: 1, post, commentCount, skip, limit, orderBy, orderDirection });
             } else {
-                return res.status(404).json({ success: 0, error: `Post Not found with id : ${ id } or slug : ${ slug }` });
+                return res.status(404).json({ success: 0, error: `Post Not found with id : ${id} or slug : ${slug}` });
             }
         })();
     }
@@ -78,8 +78,8 @@ class PostCtrl extends _mainCtrl2.default {
             } else {
                 post = yield Post.findOneAndUpdate({ _id: id, user: req.user._id }, req.body, { new: true });
             }
-            if (!post) return res.status(404).json({ success: 0, message: `no post found or Not Authorized for post, id : ${ id }` });
-            res.status(200).json({ sucess: 1, message: `the post with id : ${ id } updated.` });
+            if (!post) return res.status(404).json({ success: 0, message: `no post found or Not Authorized for post, id : ${id}` });
+            res.status(200).json({ sucess: 1, message: `the post with id : ${id} updated.` });
         })();
     }
 
@@ -93,8 +93,8 @@ class PostCtrl extends _mainCtrl2.default {
             } else {
                 post = yield Post.findOneAndUpdate({ _id: id, user: req.user._id, deletedAt: null }, { $set: { deletedAt: Date.now() } });
             }
-            if (!post) return res.status(404).json({ success: 0, message: `No post found or Not Authorized for post, id : ${ id }` });
-            res.status(200).json({ sucess: 1, message: `the post with id : ${ id } deleted.` });
+            if (!post) return res.status(404).json({ success: 0, message: `No post found or Not Authorized for post, id : ${id}` });
+            res.status(200).json({ sucess: 1, message: `the post with id : ${id} deleted.` });
         })();
     }
 
@@ -102,7 +102,7 @@ class PostCtrl extends _mainCtrl2.default {
         return _asyncToGenerator(function* () {
             const postId = req.params.id;
             const { body, name = null, email = null } = req.body;
-            if (!req.user && !email | !name) return res.status(400).json({ success: 0, message: `who left this comment? email : ${ email } - name: ${ name }` });
+            if (!req.user && !email | !name) return res.status(400).json({ success: 0, message: `who left this comment? email : ${email} - name: ${name}` });
 
             const newComment = new Comment({
                 postId,
@@ -116,7 +116,7 @@ class PostCtrl extends _mainCtrl2.default {
             }
             const post = yield Post.findOneAndUpdate({ _id: postId }, { $push: { comments: newComment._id } });
             if (!post) return res.status(404).json({
-                success: 0, message: `no post found for given id : ${ postId }`
+                success: 0, message: `no post found for given id : ${postId}`
             });
             const comment = yield newComment.save();
             if (req.user) {
@@ -137,7 +137,7 @@ class PostCtrl extends _mainCtrl2.default {
             });
 
             console.log("post : ", post);
-            if (!post) return res.status(404).json({ success: 0, message: `No post found with id/slug : ${ id }` });
+            if (!post) return res.status(404).json({ success: 0, message: `No post found with id/slug : ${id}` });
             res.status(200).json({ success: 1, comments: post.comments });
         })();
     }

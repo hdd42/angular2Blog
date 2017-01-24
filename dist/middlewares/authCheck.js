@@ -23,7 +23,7 @@ class Auth {
                     return next();
                 }
                 if (roles.indexOf(user.role) < 0) {
-                    let error = new Error(`Not Authorized . ${ roles } Access Only!`);
+                    let error = new Error(`Not Authorized . ${roles} Access Only!`);
                     error.status = 401;
                     return next(error);
                 }

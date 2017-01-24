@@ -36,7 +36,7 @@ CategorySchema.statics.FindAllPostAndCountByCategory = function ({ id, query,
 
     return new Promise((resolve, reject) => {
         this.findOne(categoryQuery).then(_cat => {
-            if (!_cat) return reject(new Error(`no category found with , id or slug : ${ id }`));
+            if (!_cat) return reject(new Error(`no category found with , id or slug : ${id}`));
             return _cat._id;
         }).then(category => {
             return Promise.all([_mongoose2.default.model('Post').find({ deletedAt: null, category }).select(select.join(' ')).skip(parseInt(skip)).sort(sort).limit(parseInt(limit)), _mongoose2.default.model('Post').find({ deletedAt: null, category }).count()]);
