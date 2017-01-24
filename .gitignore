@@ -1,0 +1,17 @@
+.idea/
+.idea/*
+uploads/*
+node1_modules/*
+src/*
+nbproject/
+typings/
+/tsd.json
+typings/*
+*.ts
+.vscode/
+docs
+doc.js
+*.map
+tsconfig.json
+temp.html
+npm-debug.log
