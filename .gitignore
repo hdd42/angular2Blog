@@ -1,13 +1,16 @@
 .idea/
 .idea/*
 uploads/*
-node1_modules/*
-src/*
+node_modules/
+.gitignore
+.elasticbeanstalk/
+src/
 nbproject/
 typings/
 /tsd.json
 typings/*
 *.ts
+/*.env
 .vscode/
 docs
 doc.js
@@ -15,3 +18,13 @@ doc.js
 tsconfig.json
 temp.html
 npm-debug.log
+
+
+# Elastic Beanstalk Files
+
+.elasticbeanstalk/*
+
+!.elasticbeanstalk/*.cfg.yml
+
+!.elasticbeanstalk/*.global.yml
+
