@@ -23,7 +23,7 @@
     "babel-preset-latest": "^6.16.0"
   },
   "dependencies": {
-    "argon2": "^0.15.0",
+    
     "babel-polyfill": "^6.16.0",
     "bluebird": "^3.4.7",
     "body-parser": "^1.15.2",
