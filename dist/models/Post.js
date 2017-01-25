@@ -106,6 +106,9 @@ PostSchema.post('update', function (doc) {
         console.log("post deleted! : ", userId);
     }
 });
+
+PostSchema.virtual('commentCount').get();
+
 //await User.findOneAndUpdate({_id:req.user._id},{$set:{ $inc: { postCount: -1} }})
 
 function homePosts(body) {
