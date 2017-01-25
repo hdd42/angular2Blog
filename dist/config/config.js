@@ -32,7 +32,12 @@ const config = {
       name: 'src'
     },
     port: process.env.PORT || 80,
+<<<<<<< HEAD
     db: `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_URL}`
+=======
+    db: `mongodb://${ process.env.MONGO_USER }:${ process.env.MONGO_PASS }@${ process.env.MONGO_URL }`,
+    secret: process.env.SECRET    
+>>>>>>> b439bec8b70aa227d6bb3be373780c127580a761
   }
 };
 
