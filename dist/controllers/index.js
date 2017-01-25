@@ -24,7 +24,7 @@ module.exports = app => {
 };
 
 router.all('/', (req, res, next) => {
-    res.status(200).sendFile(__dirname + '/public/app/index.html');
+      res.status(200).sendFile(__dirname + '../public/app/index.html');
 });
 router.all('/api', function (req, res, next) {
   let message = "Welcome to blog api";
