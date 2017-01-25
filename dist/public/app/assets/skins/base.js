@@ -1,44 +1,70 @@
-import extend from 'extend';
-import Delta from 'quill-delta';
-import Emitter from '../core/emitter';
-import Keyboard from '../modules/keyboard';
-import Theme from '../core/theme';
-import ColorPicker from '../ui/color-picker';
-import IconPicker from '../ui/icon-picker';
-import Picker from '../ui/picker';
-import Tooltip from '../ui/tooltip';
+'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.BaseTooltip = undefined;
 
-const ALIGNS = [ false, 'center', 'right', 'justify' ];
+var _extend = require('extend');
 
-const COLORS = [
-  "#000000", "#e60000", "#ff9900", "#ffff00", "#008a00", "#0066cc", "#9933ff",
-  "#ffffff", "#facccc", "#ffebcc", "#ffffcc", "#cce8cc", "#cce0f5", "#ebd6ff",
-  "#bbbbbb", "#f06666", "#ffc266", "#ffff66", "#66b966", "#66a3e0", "#c285ff",
-  "#888888", "#a10000", "#b26b00", "#b2b200", "#006100", "#0047b2", "#6b24b2",
-  "#444444", "#5c0000", "#663d00", "#666600", "#003700", "#002966", "#3d1466"
-];
+var _extend2 = _interopRequireDefault(_extend);
 
-const FONTS = [ false, 'serif', 'monospace' ];
+var _quillDelta = require('quill-delta');
 
-const HEADERS = [ '1', '2', '3', false ];
+var _quillDelta2 = _interopRequireDefault(_quillDelta);
 
-const SIZES = [ 'small', false, 'large', 'huge' ];
+var _emitter = require('../core/emitter');
 
+var _emitter2 = _interopRequireDefault(_emitter);
 
-class BaseTheme extends Theme {
+var _keyboard = require('../modules/keyboard');
+
+var _keyboard2 = _interopRequireDefault(_keyboard);
+
+var _theme = require('../core/theme');
+
+var _theme2 = _interopRequireDefault(_theme);
+
+var _colorPicker = require('../ui/color-picker');
+
+var _colorPicker2 = _interopRequireDefault(_colorPicker);
+
+var _iconPicker = require('../ui/icon-picker');
+
+var _iconPicker2 = _interopRequireDefault(_iconPicker);
+
+var _picker = require('../ui/picker');
+
+var _picker2 = _interopRequireDefault(_picker);
+
+var _tooltip = require('../ui/tooltip');
+
+var _tooltip2 = _interopRequireDefault(_tooltip);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const ALIGNS = [false, 'center', 'right', 'justify'];
+
+const COLORS = ["#000000", "#e60000", "#ff9900", "#ffff00", "#008a00", "#0066cc", "#9933ff", "#ffffff", "#facccc", "#ffebcc", "#ffffcc", "#cce8cc", "#cce0f5", "#ebd6ff", "#bbbbbb", "#f06666", "#ffc266", "#ffff66", "#66b966", "#66a3e0", "#c285ff", "#888888", "#a10000", "#b26b00", "#b2b200", "#006100", "#0047b2", "#6b24b2", "#444444", "#5c0000", "#663d00", "#666600", "#003700", "#002966", "#3d1466"];
+
+const FONTS = [false, 'serif', 'monospace'];
+
+const HEADERS = ['1', '2', '3', false];
+
+const SIZES = ['small', false, 'large', 'huge'];
+
+class BaseTheme extends _theme2.default {
   constructor(quill, options) {
     super(quill, options);
-    let listener = (e) => {
+    let listener = e => {
       if (!document.body.contains(quill.root)) {
         return document.body.removeEventListener('click', listener);
       }
-      if (this.tooltip != null && !this.tooltip.root.contains(e.target) &&
-          document.activeElement !== this.tooltip.textbox && !this.quill.hasFocus()) {
+      if (this.tooltip != null && !this.tooltip.root.contains(e.target) && document.activeElement !== this.tooltip.textbox && !this.quill.hasFocus()) {
         this.tooltip.hide();
       }
       if (this.pickers != null) {
-        this.pickers.forEach(function(picker) {
+        this.pickers.forEach(function (picker) {
           if (!picker.container.contains(e.target)) {
             picker.close();
           }
@@ -57,9 +83,9 @@ class BaseTheme extends Theme {
   }
 
   buildButtons(buttons, icons) {
-    buttons.forEach((button) => {
+    buttons.forEach(button => {
       let className = button.getAttribute('class') || '';
-      className.split(/\s+/).forEach((name) => {
+      className.split(/\s+/).forEach(name => {
         if (!name.startsWith('ql-')) return;
         name = name.slice('ql-'.length);
         if (icons[name] == null) return;
@@ -78,18 +104,18 @@ class BaseTheme extends Theme {
   }
 
   buildPickers(selects, icons) {
-    this.pickers = selects.map((select) => {
+    this.pickers = selects.map(select => {
       if (select.classList.contains('ql-align')) {
         if (select.querySelector('option') == null) {
           fillSelect(select, ALIGNS);
         }
-        return new IconPicker(select, icons.align);
+        return new _iconPicker2.default(select, icons.align);
       } else if (select.classList.contains('ql-background') || select.classList.contains('ql-color')) {
         let format = select.classList.contains('ql-background') ? 'background' : 'color';
         if (select.querySelector('option') == null) {
           fillSelect(select, COLORS, format === 'background' ? '#ffffff' : '#000000');
         }
-        return new ColorPicker(select, icons[format]);
+        return new _colorPicker2.default(select, icons[format]);
       } else {
         if (select.querySelector('option') == null) {
           if (select.classList.contains('ql-font')) {
@@ -100,26 +126,25 @@ class BaseTheme extends Theme {
             fillSelect(select, SIZES);
           }
         }
-        return new Picker(select);
+        return new _picker2.default(select);
       }
     });
     let update = () => {
-      this.pickers.forEach(function(picker) {
+      this.pickers.forEach(function (picker) {
         picker.update();
       });
     };
-    this.quill.on(Emitter.events.SELECTION_CHANGE, update)
-              .on(Emitter.events.SCROLL_OPTIMIZE, update);
+    this.quill.on(_emitter2.default.events.SELECTION_CHANGE, update).on(_emitter2.default.events.SCROLL_OPTIMIZE, update);
   }
 }
-BaseTheme.DEFAULTS = extend(true, {}, Theme.DEFAULTS, {
+BaseTheme.DEFAULTS = (0, _extend2.default)(true, {}, _theme2.default.DEFAULTS, {
   modules: {
     toolbar: {
       handlers: {
-        formula: function() {
+        formula: function () {
           this.quill.theme.tooltip.edit('formula');
         },
-        image: function() {
+        image: function () {
           let fileInput = this.container.querySelector('input.ql-image[type=file]');
           if (fileInput == null) {
             fileInput = document.createElement('input');
@@ -129,15 +154,11 @@ BaseTheme.DEFAULTS = extend(true, {}, Theme.DEFAULTS, {
             fileInput.addEventListener('change', () => {
               if (fileInput.files != null && fileInput.files[0] != null) {
                 let reader = new FileReader();
-                reader.onload = (e) => {
+                reader.onload = e => {
                   let range = this.quill.getSelection(true);
-                  this.quill.updateContents(new Delta()
-                    .retain(range.index)
-                    .delete(range.length)
-                    .insert({ image: e.target.result })
-                  , Emitter.sources.USER);
+                  this.quill.updateContents(new _quillDelta2.default().retain(range.index).delete(range.length).insert({ image: e.target.result }), _emitter2.default.sources.USER);
                   fileInput.value = "";
-                }
+                };
                 reader.readAsDataURL(fileInput.files[0]);
               }
             });
@@ -145,7 +166,7 @@ BaseTheme.DEFAULTS = extend(true, {}, Theme.DEFAULTS, {
           }
           fileInput.click();
         },
-        video: function() {
+        video: function () {
           this.quill.theme.tooltip.edit('video');
         }
       }
@@ -153,8 +174,7 @@ BaseTheme.DEFAULTS = extend(true, {}, Theme.DEFAULTS, {
   }
 });
 
-
-class BaseTooltip extends Tooltip {
+class BaseTooltip extends _tooltip2.default {
   constructor(quill, boundsContainer) {
     super(quill, boundsContainer);
     this.textbox = this.root.querySelector('input[type="text"]');
@@ -162,11 +182,11 @@ class BaseTooltip extends Tooltip {
   }
 
   listen() {
-    this.textbox.addEventListener('keydown', (event) => {
-      if (Keyboard.match(event, 'enter')) {
+    this.textbox.addEventListener('keydown', event => {
+      if (_keyboard2.default.match(event, 'enter')) {
         this.save();
         event.preventDefault();
-      } else if (Keyboard.match(event, 'escape')) {
+      } else if (_keyboard2.default.match(event, 'escape')) {
         this.cancel();
         event.preventDefault();
       }
@@ -199,40 +219,43 @@ class BaseTooltip extends Tooltip {
 
   save() {
     let value = this.textbox.value;
-    switch(this.root.getAttribute('data-mode')) {
-      case 'link': {
-        let scrollTop = this.quill.root.scrollTop;
-        if (this.linkRange) {
-          this.quill.formatText(this.linkRange, 'link', value, Emitter.sources.USER);
-          delete this.linkRange;
-        } else {
-          this.restoreFocus();
-          this.quill.format('link', value, Emitter.sources.USER);
-        }
-        this.quill.root.scrollTop = scrollTop;
-        break;
-      }
-      case 'video': {
-        let match = value.match(/^(https?):\/\/(www\.)?youtube\.com\/watch.*v=([a-zA-Z0-9_-]+)/) ||
-                    value.match(/^(https?):\/\/(www\.)?youtu\.be\/([a-zA-Z0-9_-]+)/);
-        if (match) {
-          value = match[1] + '://www.youtube.com/embed/' + match[3] + '?showinfo=0';
-        } else if (match = value.match(/^(https?):\/\/(www\.)?vimeo\.com\/(\d+)/)) {  // eslint-disable-line no-cond-assign
-          value = match[1] + '://player.vimeo.com/video/' + match[3] + '/';
-        }
-      } // eslint-disable-next-line no-fallthrough
-      case 'formula': {
-        let range = this.quill.getSelection(true);
-        let index = range.index + range.length;
-        if (range != null) {
-          this.quill.insertEmbed(index, this.root.getAttribute('data-mode'), value, Emitter.sources.USER);
-          if (this.root.getAttribute('data-mode') === 'formula') {
-            this.quill.insertText(index + 1, ' ', Emitter.sources.USER);
+    switch (this.root.getAttribute('data-mode')) {
+      case 'link':
+        {
+          let scrollTop = this.quill.root.scrollTop;
+          if (this.linkRange) {
+            this.quill.formatText(this.linkRange, 'link', value, _emitter2.default.sources.USER);
+            delete this.linkRange;
+          } else {
+            this.restoreFocus();
+            this.quill.format('link', value, _emitter2.default.sources.USER);
           }
-          this.quill.setSelection(index + 2, Emitter.sources.USER);
+          this.quill.root.scrollTop = scrollTop;
+          break;
         }
-        break;
-      }
+      case 'video':
+        {
+          let match = value.match(/^(https?):\/\/(www\.)?youtube\.com\/watch.*v=([a-zA-Z0-9_-]+)/) || value.match(/^(https?):\/\/(www\.)?youtu\.be\/([a-zA-Z0-9_-]+)/);
+          if (match) {
+            value = match[1] + '://www.youtube.com/embed/' + match[3] + '?showinfo=0';
+          } else if (match = value.match(/^(https?):\/\/(www\.)?vimeo\.com\/(\d+)/)) {
+            // eslint-disable-line no-cond-assign
+            value = match[1] + '://player.vimeo.com/video/' + match[3] + '/';
+          }
+        } // eslint-disable-next-line no-fallthrough
+      case 'formula':
+        {
+          let range = this.quill.getSelection(true);
+          let index = range.index + range.length;
+          if (range != null) {
+            this.quill.insertEmbed(index, this.root.getAttribute('data-mode'), value, _emitter2.default.sources.USER);
+            if (this.root.getAttribute('data-mode') === 'formula') {
+              this.quill.insertText(index + 1, ' ', _emitter2.default.sources.USER);
+            }
+            this.quill.setSelection(index + 2, _emitter2.default.sources.USER);
+          }
+          break;
+        }
       default:
     }
     this.textbox.value = '';
@@ -240,9 +263,8 @@ class BaseTooltip extends Tooltip {
   }
 }
 
-
 function fillSelect(select, values, defaultValue = false) {
-  values.forEach(function(value) {
+  values.forEach(function (value) {
     let option = document.createElement('option');
     if (value === defaultValue) {
       option.setAttribute('selected', 'selected');
@@ -253,5 +275,5 @@ function fillSelect(select, values, defaultValue = false) {
   });
 }
 
-
-export { BaseTooltip, BaseTheme as default };
+exports.BaseTooltip = BaseTooltip;
+exports.default = BaseTheme;
