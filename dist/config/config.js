@@ -33,7 +33,9 @@ const config = {
     },
     port: process.env.PORT || 80,
     db: `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_URL}`,
+
     secret: 'uuid()'
+
   }
 };
 
