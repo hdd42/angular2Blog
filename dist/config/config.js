@@ -30,18 +30,8 @@ const config = {
       name: 'src'
     },
     port: process.env.PORT || 80,
-<<<<<<< HEAD
-<<<<<<< HEAD
     db: `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_URL}`
-=======
-    db: `mongodb://${ process.env.MONGO_USER }:${ process.env.MONGO_PASS }@${ process.env.MONGO_URL }`,
-    secret: process.env.SECRET    
->>>>>>> b439bec8b70aa227d6bb3be373780c127580a761
-=======
-    db: `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_URL}`
->>>>>>> 322a773cff2fa4df2837f433f55b7d5615d56ccb
   }
 };
 
 module.exports = config[env];
-
