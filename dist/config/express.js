@@ -52,7 +52,7 @@ module.exports = function (app, config) {
     if (env == 'development') {
         app.use(compress());
     }
-    app.use(express.static(path.join(__dirname, 'public/app')));
+    app.use(express.static('public/app'));
     app.use(methodOverride());
 
     //app.use('/api/*',passport.authenticate('jwt', { session: false }))
