@@ -13,6 +13,7 @@ const appKey = require('../middlewares/checkAppKey');
 const passport = require('passport');
 const jwtStrategy = require('../lib/passport').strategy;
 const Auth = require('../middlewares/authCheck').Auth;
+const path = require('path');
 //const sorgu = require('../helpers/helper')
 
 module.exports = function (app, config) {
@@ -51,7 +52,7 @@ module.exports = function (app, config) {
     if (env == 'development') {
         app.use(compress());
     }
-    app.use(express.static(__dirname + '/public/app'));
+    app.use(express.static(path.join(config.root, 'public/app')));
     app.use(methodOverride());
 
     //app.use('/api/*',passport.authenticate('jwt', { session: false }))
