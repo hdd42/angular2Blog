@@ -112,7 +112,7 @@ PostSchema.virtual('commentCount').get();
 //await User.findOneAndUpdate({_id:req.user._id},{$set:{ $inc: { postCount: -1} }})
 
 function homePosts(body) {
-    if (body.length > 400) return body.substring(0, 400);
+    if (body.length > 1000) return body.substring(0, 1000);
     return body;
 }
 

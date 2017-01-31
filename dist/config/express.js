@@ -62,11 +62,17 @@ module.exports = function (app, config) {
     controllers.forEach(function (controller) {
         require(controller)(app);
     });
-    //
-    app.use(function (req, res, next) {
+
+    //404
+    app.use('/api/*', function (req, res, next) {
         const err = new Error('Not Found');
         err.status = 404;
         next(err);
+    });
+
+    app.use((req, res, next) => {
+        console.log("root : ", config.root);
+        res.status(200).sendFile(path.join(config.root, 'public/app/index.html'));
     });
 
     if (app.get('env') === 'development') {
