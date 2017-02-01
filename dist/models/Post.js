@@ -24,6 +24,7 @@ const PostSchema = new _mongoose2.default.Schema({
         required: true
     },
     highlight: { type: String },
+    textContent: { type: String },
     user: { type: ObjectId, ref: 'User', required: true },
     comments: [{ type: ObjectId, ref: 'Comment', required: true }],
     slug: { type: String, unique: true },
@@ -81,7 +82,34 @@ PostSchema.statics.FindByIdOrSlugWithComment = function (id, query, select = ["_
 PostSchema.pre('save', function (next) {
 
     if (this.isModified('body') || this.isModified('title') || this.isNew) {
-        this.highlight = homePosts(this.body);
+        if (!this.textContent) {
+            this.textContent = this.body;
+        }
+        return next();
+    } else {
+        return next();
+    }
+});
+
+PostSchema.pre('save', function (next) {
+    console.log("in update!!!");
+    if (this.isModified('body') || this.isModified('title') || this.isNew) {
+        if (!this.highlight) {
+            this.highlight = homePosts(this.textContent || this.body);
+        } else {
+            console.log("in update!!! slug : ", this.title);
+            this.slug = (0, _speakingurl2.default)(this.title, { lang: 'tr' });
+        }
+
+        return next();
+    } else {
+        return next();
+    }
+});
+
+PostSchema.pre('update', function (next) {
+    console.log("in update!!!, pre");
+    if (this.isModified('title')) {
         this.slug = (0, _speakingurl2.default)(this.title, { lang: 'tr' });
         return next();
     } else {
@@ -112,7 +140,7 @@ PostSchema.virtual('commentCount').get();
 //await User.findOneAndUpdate({_id:req.user._id},{$set:{ $inc: { postCount: -1} }})
 
 function homePosts(body) {
-    if (body.length > 1000) return body.substring(0, 1000);
+    if (body.length > 400) return body.substring(0, 400);
     return body;
 }
 

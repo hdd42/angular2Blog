@@ -74,7 +74,7 @@ class PostCtrl extends _mainCtrl2.default {
             let post;
 
             if (req.user.role == 'Admin') {
-                post = yield Post.findByIdAndUpdate(id, req.body, { new: true });
+                post = yield Post.findOneAndUpdate({ _id: id }, req.body, { new: true });
             } else {
                 post = yield Post.findOneAndUpdate({ _id: id, user: req.user._id }, req.body, { new: true });
             }

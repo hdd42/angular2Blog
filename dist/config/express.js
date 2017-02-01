@@ -32,7 +32,7 @@ module.exports = function (app, config) {
     if (env == 'development') {
         app.use(logger('dev'));
     } else {
-        app.use(logger('compress'));
+        app.use(logger('short'));
     }
     app.use(cors());
     app.use(bodyParser.json());
